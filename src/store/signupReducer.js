@@ -1,3 +1,4 @@
+import firebase from 'firebase'
 
 const SIGNUP_REQUEST = 'SIGNUP_REQUEST'
 const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS'
@@ -21,18 +22,19 @@ function signupFailed() {
     }
 }
 
-export function signup() {
+export function signup(email, password) {
     return (dispatch) => {
+
         dispatch(signupRequest());
 
-        setTimeout(() => {
-            dispatch(signupSuccess());
-        }, 2000)
-        // api call
-
-        // 완료 dispatch(signupRequest());
-
-        // 실패 dispatch(signupFailed());
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                dispatch(signupSuccess());
+            })
+            .catch(function (error) {
+                console.log(error);
+                dispatch(signupFailed());
+            });
     }
 }
 
