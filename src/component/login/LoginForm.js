@@ -70,8 +70,6 @@ class LoginForm extends Component {
     }
 
     render() {
-        console.log(this.state);
-        console.log(this.props);
         const { email, password, message } = this.state;
         const { isLoading } = this.props;
 

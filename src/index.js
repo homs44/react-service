@@ -8,6 +8,7 @@ import * as serviceWorker from './serviceWorker';
 import 'semantic-ui-css/semantic.min.css'
 import { configureStore } from './store/index'
 import { Provider } from 'react-redux'
+import { auth } from './store/authReducer'
 
 var config = {
     apiKey: "AIzaSyC8S96Ffg2lYV9MVcNgU5stPNbSGMA7yKE",
@@ -22,6 +23,8 @@ var config = {
 firebase.initializeApp(config);
 
 const store = configureStore();
+
+store.dispatch(auth());
 
 ReactDOM.render(
     <Provider store={store}>

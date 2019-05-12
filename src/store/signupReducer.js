@@ -32,7 +32,7 @@ export function signup(email, password) {
                 dispatch(signupSuccess());
             })
             .catch(function (error) {
-                console.log(error);
+                console.log(error)
                 dispatch(signupFailed());
             });
     }
