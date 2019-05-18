@@ -4,6 +4,8 @@ const SIGNUP_REQUEST = 'SIGNUP_REQUEST'
 const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS'
 const SIGNUP_FAILED = 'SIGNUP_FAILED'
 
+const SIGNUP_VALIDATION_FAILED = 'SIGNUP_VALIDATION_FAILED'
+
 function signupRequest() {
     return {
         type: SIGNUP_REQUEST
@@ -16,9 +18,10 @@ function signupSuccess() {
     }
 }
 
-function signupFailed() {
+function signupFailed(error) {
     return {
-        type: SIGNUP_FAILED
+        type: SIGNUP_FAILED,
+        payload: error,
     }
 }
 
@@ -32,9 +35,15 @@ export function signup(email, password) {
                 dispatch(signupSuccess());
             })
             .catch(function (error) {
-                console.log(error)
-                dispatch(signupFailed());
+                dispatch(signupFailed(error));
             });
+    }
+}
+
+export function signupValidationFailed(error) {
+    return {
+        type: SIGNUP_VALIDATION_FAILED,
+        payload: error
     }
 }
 
@@ -63,6 +72,11 @@ export default function signupReducer(state = initialState, action) {
                 isLoading: false,
                 isSuccess: false,
                 isFailed: true,
+                error: action.payload
+            })
+        case SIGNUP_VALIDATION_FAILED:
+            return Object.assign({}, state, {
+                error: action.payload
             })
         default:
             return state;
