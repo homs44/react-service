@@ -21,8 +21,20 @@ class App extends Component {
               return <Redirect to="/login" />
             }
         }} />
-        <Route path="/login" component={LoginPage} />
-        <Route path="/signup" component={SignupPage} />
+        <Route path="/login" component={()=>{
+          if(this.props.user){
+            return <Redirect to="/" />
+          }else{
+            return <LoginPage/>
+          }
+        }} />
+        <Route path="/signup" component={()=>{
+          if(this.props.user){
+            return <Redirect to="/" />
+          }else{
+            return <SignupPage/>
+          }
+        }} />
       </Router>
     )
   }

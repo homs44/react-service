@@ -8,35 +8,61 @@ import { logout } from '../../store/logoutReducer'
 
 class Header extends Component {
 
-    onLogout = ()=>{
+    onLogout = () => {
         this.props.logout();
     }
 
     render() {
-        return (
-            <Menu>
-                <Menu.Item header>
-                    게시판
-                </Menu.Item>
-                <Menu.Item>
-                    <Link to="/">홈</Link>
-                </Menu.Item>
 
-                <Menu.Menu position="right">
-                    <Menu.Item>
-                        <Button onClick={this.onLogout}>로그아웃</Button>
+        const { user } = this.props;
+
+        if (user) {
+            return (
+                <Menu>
+                    <Menu.Item header>
+                        게시판
                     </Menu.Item>
                     <Menu.Item>
-                        <Link to="/login">로그인</Link>
+                        <Link to="/">홈</Link>
+                    </Menu.Item>
+
+                    <Menu.Menu position="right">
+                        <Menu.Item>
+                            <Button onClick={this.onLogout}>로그아웃</Button>
+                        </Menu.Item>
+                    </Menu.Menu>
+                </Menu>
+            )
+        } else {
+            return (
+                <Menu>
+                    <Menu.Item header>
+                        게시판
                     </Menu.Item>
                     <Menu.Item>
-                        <Link to="/signup">
-                            회원가입
-                        </Link>
+                        <Link to="/">홈</Link>
                     </Menu.Item>
-                </Menu.Menu>
-            </Menu>
-        )
+
+                    <Menu.Menu position="right">
+                        <Menu.Item>
+                            <Link to="/login">로그인</Link>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <Link to="/signup">
+                                회원가입
+                            </Link>
+                        </Menu.Item>
+                    </Menu.Menu>
+                </Menu>
+            )
+        }
+
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
     }
 }
 
@@ -46,4 +72,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

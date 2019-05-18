@@ -24,7 +24,8 @@ firebase.initializeApp(config);
 
 const store = configureStore();
 
-store.dispatch(auth());
+store.dispatch(auth())
+
 
 ReactDOM.render(
     <Provider store={store}>
