@@ -35,6 +35,11 @@ export function updateDisplayName(displayName) {
                 displayName: displayName
             }).then(() => {
                 dispatch(updateDisplayNameSuccess());
+                // 프로필을 수정하게 되면 firebase.auth().currentUser는 수정되지만
+                // state.auth.user는 수정되지 않는다. 
+                // onAuthStateChanged는 로그인 상태가 변할 때만 호출 되지 프로필이 수정 되었을 때는
+                // 호출되지 않는다.
+                // 그래서 다음과 같이 직접 state.auth.user를 수정하는 action을 dispatch 해야한다.
                 const updatedUser = firebase.auth().currentUser;
                 dispatch(updateUser(updatedUser))
             }).catch((error) => {
