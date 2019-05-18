@@ -4,6 +4,7 @@ import authReducer from './authReducer'
 import signupReducer from './signupReducer'
 import loginReducer from './loginReducer'
 import logoutReducer from './logoutReducer';
+import displayNameReducer from './displayNameReducer';
 
 export function configureStore() {
     return createStore(
@@ -12,11 +13,12 @@ export function configureStore() {
             signup: signupReducer,
             login: loginReducer,
             logout: logoutReducer,
+            displayName: displayNameReducer
         }),
         compose(
             applyMiddleware(thunk),
             window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-            
+
         )
     )
 }

@@ -3,7 +3,7 @@ import firebase from 'firebase'
 
 
 const UPDATE_USER = 'UPDATE_USER'
-const updateUser = (user) => {
+export const updateUser = (user) => {
     return {
         type: UPDATE_USER,
         payload: user,
