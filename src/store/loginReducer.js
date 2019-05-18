@@ -13,6 +13,7 @@ import firebase from 'firebase'
 const LOGIN_REQUEST = 'LOGIN_REQUEST'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 const LOGIN_FAILED = 'LOGIN_FAILED'
+const LOGIN_VALIDATION_FAILED = 'LOGIN_VALIDATION_FAILED'
 
 function loginRequest() {
     return {
@@ -49,6 +50,14 @@ export function login(email, password) {
     }
 }
 
+
+export function loginValidationFailed(error) {
+    return {
+        type: LOGIN_VALIDATION_FAILED,
+        payload: error
+    }
+}
+
 const initialState = {
     isLoading: false,
     isSuccess: false,
@@ -78,6 +87,10 @@ export default function loginReducer(state = initialState, action) {
                 isSuccess: false,
                 isFailed: true,
                 error: error,
+            })
+        case LOGIN_VALIDATION_FAILED:
+            return Object.assign({}, state, {
+                error: action.payload,
             })
         default:
             return state;
