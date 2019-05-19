@@ -4,7 +4,8 @@ import firebase from 'firebase'
 
 const UPDATE_USER = 'UPDATE_USER'
 export const updateUser = (firebaseUser) => {
-    const user = new User(firebaseUser);
+    const user = firebaseUser ? new User(firebaseUser) : null;
+
     return {
         type: UPDATE_USER,
         payload: user,
