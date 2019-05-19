@@ -1,12 +1,13 @@
-import React,{Component} from 'react'
+import React, { Component } from 'react'
+import MovieList from '../../component/movie/MovieList'
 
-class HomePage extends Component{
+class HomePage extends Component {
 
 
-    render(){
+    render() {
         return (
             <div>
-                Home page
+                <MovieList />
             </div>
         )
     }

@@ -8,6 +8,7 @@ import LoginPage from './page/login/LoginPage'
 import SignupPage from './page/signup/SignupPage'
 import DisplayNamePage from './page/displayName/DisplayNamePage'
 import AddMoviePage from './page/addMovie/AddMoviePage'
+import TestPage from './page/test/TestPage'
 
 class App extends Component {
 
@@ -54,9 +55,10 @@ class App extends Component {
           } else {
             return <Redirect to="/login" />
           }
-
-
         }} />
+
+        <Route path="/test" component={TestPage} />
+
       </Router>
     )
   }

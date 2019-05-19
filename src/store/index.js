@@ -6,6 +6,7 @@ import loginReducer from './loginReducer'
 import logoutReducer from './logoutReducer';
 import displayNameReducer from './displayNameReducer';
 import addMovieReducer from './addMovieReducer';
+import movieListReducer from './movieListReducer';
 
 export function configureStore() {
     return createStore(
@@ -16,6 +17,7 @@ export function configureStore() {
             logout: logoutReducer,
             displayName: displayNameReducer,
             addMovie: addMovieReducer,
+            movieList: movieListReducer
         }),
         compose(
             applyMiddleware(thunk),
