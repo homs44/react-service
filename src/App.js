@@ -7,6 +7,7 @@ import HomePage from './page/home/HomePage'
 import LoginPage from './page/login/LoginPage'
 import SignupPage from './page/signup/SignupPage'
 import DisplayNamePage from './page/displayName/DisplayNamePage'
+import AddMoviePage from './page/addMovie/AddMoviePage'
 
 class App extends Component {
 
@@ -27,6 +28,8 @@ class App extends Component {
           }
 
         }} />
+        <Route path="/movie/add" component={AddMoviePage} />
+
         <Route path="/login" component={() => {
           if (this.props.user) {
             return <Redirect to="/" />

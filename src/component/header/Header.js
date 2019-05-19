@@ -23,7 +23,13 @@ class Header extends Component {
                         게시판
                     </Menu.Item>
                     <Menu.Item>
-                        <Link to="/">홈</Link>
+                        <Link to="/">영화 목록</Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                        <Link to="/movie/add">영화 추가</Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                        <Link to="/">내가 등록한 영화</Link>
                     </Menu.Item>
 
                     <Menu.Menu position="right">
