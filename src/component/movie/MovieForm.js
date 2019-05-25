@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Grid, Form, Message, Header } from 'semantic-ui-react'
+import { Grid, Form, Message, Header, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { addMovieValidationFailed, addMovie, initAddMovieState } from '../../store/addMovieReducer'
 
@@ -11,6 +11,7 @@ class MovieForm extends Component {
         director: '',
         openedAt: '',
         description: '',
+        image: null,
     }
 
     componentDidMount() {
@@ -24,7 +25,7 @@ class MovieForm extends Component {
     }
 
     onAddMovie = () => {
-        const { name, director, openedAt, description } = this.state;
+        const { name, director, openedAt, description, image } = this.state;
 
         // 유효성 검사
         if (!name) {
@@ -43,12 +44,44 @@ class MovieForm extends Component {
             this.props.addMovieValidationFailed(new Error('Enter description.'))
             return;
         }
+
+        const file = image ? image.file : null;
         //추가
-        this.props.addMovie(name, director, openedAt, description);
+        this.props.addMovie(name, director, openedAt, description, file);
+    }
+
+    onAddImage = () => {
+        this.refs.image.click();
+    }
+
+    onImageChange = (e) => {
+        if (!(e.target.files && e.target.files.length))
+            return;
+
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.readAsDataURL(file);
+
+        reader.onload = () => {
+            this.setState({
+                image: {
+                    file: file,
+                    src: reader.result,
+                }
+            })
+        }
+
+    }
+
+    onImageDelete = () => {
+        this.setState({
+            image: null
+        })
     }
 
     render() {
-        const { name, director, openedAt, description } = this.state;
+        const { name, director, openedAt, description, image } = this.state;
         const { error, isLoading, isSuccess } = this.props;
 
         if (isSuccess) {
@@ -70,6 +103,13 @@ class MovieForm extends Component {
                 <Grid>
                     <Grid.Row>
                         <Grid.Column mobile={16} tablet={8} computer={8}>
+                            <input ref="image" type="file" style={{ display: 'none' }} onChange={this.onImageChange} />
+                            <Form.Button fluid onClick={this.onAddImage}>이미지 등록</Form.Button>
+                            {image ?
+                                <Image src={image.src} style={{ cursor: 'pointer' }} onClick={this.onImageDelete} /> :
+                                null
+                            }
+
 
                         </Grid.Column>
                         <Grid.Column mobile={16} tablet={8} computer={8}>
@@ -108,7 +148,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        addMovie: (name, director, openedAt, description) => dispatch(addMovie(name, director, openedAt, description)),
+        addMovie: (name, director, openedAt, description, file) => dispatch(addMovie(name, director, openedAt, description, file)),
         addMovieValidationFailed: (error) => dispatch(addMovieValidationFailed(error)),
         initAddMovieState: () => dispatch(initAddMovieState())
     }

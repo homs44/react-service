@@ -1,4 +1,5 @@
 import firebase from 'firebase'
+import uuid from 'uuid';
 
 const INIT_ADD_MOVIE_STATE = 'INIT_ADD_MOVIE_STATE'
 
@@ -39,20 +40,61 @@ function addMovieFailed(error) {
     }
 }
 
-export function addMovie(name, director, openedAt, description) {
+export function addMovie(name, director, openedAt, description, file) {
     return (dispatch) => {
         dispatch(addMovieRequest());
 
-        firebase.firestore().collection('movies').add({
-            name: name,
-            director: director,
-            openedAt: openedAt,
-            description: description,
-        }).then(() => {
-            dispatch(addMovieSuccess());
-        }).catch((error) => {
-            dispatch(addMovieFailed(error));
-        })
+        // 이미지는 이미지 스토어에 저장하고
+
+        // 데이터는 데이터베이스에 저장해요 
+
+        // images/filename.jpg
+
+
+        if (file) {
+            // 이미지 저장하고 이미지 다운로드 URL 가지고와서
+            // 데이터베이스에 같이 저장
+            const filename = uuid.v1();
+            const extension = file.name.split('.').pop();
+            const url = `movies/${filename}.${extension}`;
+            const movieRef = firebase.storage().ref().child(url);
+            movieRef.put(file)
+                .then((snapshot) => {
+                    return snapshot.ref.getDownloadURL();
+                })
+                .then((downloadURL) => {
+                    return firebase.firestore().collection('movies').add({
+                        name: name,
+                        imageURL: downloadURL,
+                        director: director,
+                        openedAt: openedAt,
+                        description: description,
+                        createdAt: new Date(),
+                        updatedAt: new Date(),
+                    })
+                })
+                .then(() => {
+                    dispatch(addMovieSuccess());
+                })
+                .catch((error) => {
+                    dispatch(addMovieFailed(error));
+                })
+
+        } else {
+            firebase.firestore().collection('movies').add({
+                name: name,
+                director: director,
+                openedAt: openedAt,
+                description: description,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            }).then(() => {
+                dispatch(addMovieSuccess());
+            }).catch((error) => {
+                dispatch(addMovieFailed(error));
+            })
+        }
+
 
     }
 }
