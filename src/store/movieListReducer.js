@@ -9,10 +9,13 @@ function getMovieListRequest() {
         type: GET_MOVIE_LIST_REQUEST
     }
 }
-function getMovieListSuccess(list) {
+function getMovieListSuccess(list, last) {
     return {
         type: GET_MOVIE_LIST_SUCCESS,
-        payload: list
+        payload: {
+            list: list,
+            last: last,
+        }
     }
 }
 function getMovieListFailed(error) {
@@ -22,14 +25,25 @@ function getMovieListFailed(error) {
     }
 }
 
-export function getMovieList() {
+export function getMovieList(last) {
     return (dispatch) => {
         dispatch(getMovieListRequest());
-        firebase.firestore().collection('movies')
-            .limit(10)
-            .get()
+        let query = null;
+
+        if (last) {
+            query = firebase.firestore().collection('movies')
+                .orderBy('createdAt')
+                .startAfter(last)
+                .limit(20)
+        } else {
+            query = firebase.firestore().collection('movies')
+                .orderBy('createdAt')
+                .limit(20)
+        }
+
+        query.get()
             .then((snapshot) => {
-                dispatch(getMovieListSuccess(snapshot.docs));
+                dispatch(getMovieListSuccess(snapshot.docs, last));
             }).catch((error) => {
                 dispatch(getMovieListFailed(error));
             })
@@ -57,7 +71,7 @@ export default function movieListReducer(state = initialState, action) {
                 isLoading: false,
                 isSuccess: true,
                 isFailed: false,
-                list: [...action.payload]
+                list: action.payload.last ? [...state.list, ...action.payload.list] : [...action.payload.list]
             })
         case GET_MOVIE_LIST_FAILED:
             return Object.assign({}, state, {

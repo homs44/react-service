@@ -1,27 +1,35 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Button } from 'semantic-ui-react'
 import { getMovieList } from '../../store/movieListReducer'
 import MovieItem from './MovieItem'
 
 class MovieList extends Component {
 
     componentDidMount() {
-        this.props.getMovieList();
+        this.props.getMovieList(null);
+    }
+
+    onLoadMore = () => {
+        if (this.props.list.length) {
+            this.props.getMovieList(this.props.list[this.props.list.length - 1]);
+        } else {
+            this.props.getMovieList(null);
+        }
     }
 
     render() {
-
         const { list } = this.props;
 
         const items = list.map((doc) => {
             const id = doc.id;
             const data = doc.data();
 
-            const { name, openedAt, director, description } = data;
-            return <Grid.Column key={id} mobile={8} tablet={5} computer={4}>
+            const { name, openedAt, director, description, imageURL } = data;
+            return <Grid.Column key={id} mobile={8} tablet={4} computer={4}>
                 <MovieItem
                     name={name}
+                    imageUrl={imageURL}
                     openedAt={openedAt}
                     director={director}
                     description={description}
@@ -33,6 +41,10 @@ class MovieList extends Component {
         return (
             <Grid>
                 {items}
+
+                <Grid.Row centered>
+                    <Button onClick={this.onLoadMore}>더 불러오기</Button>
+                </Grid.Row>
             </Grid>
         )
     }
@@ -47,7 +59,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        getMovieList: () => dispatch(getMovieList())
+        getMovieList: (last) => dispatch(getMovieList(last))
     }
 }
 
