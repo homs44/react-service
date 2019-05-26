@@ -8,7 +8,9 @@ import LoginPage from './page/login/LoginPage'
 import SignupPage from './page/signup/SignupPage'
 import DisplayNamePage from './page/displayName/DisplayNamePage'
 import AddMoviePage from './page/addMovie/AddMoviePage'
+import UpdateMoviePage from './page/updateMovie/UpdateMoviePage'
 import TestPage from './page/test/TestPage'
+import MyMovieListPage from './page/myMovieList/MyMovieListPage'
 
 class App extends Component {
 
@@ -27,9 +29,24 @@ class App extends Component {
           } else {
             return <Redirect to="/login" />
           }
-
         }} />
+
+        <Route path="/my-movies" exact component={() => {
+
+          if (this.props.user && this.props.user.displayName) {
+            return <MyMovieListPage />
+
+          } else if (this.props.user) {
+            return <Redirect to="/display-name" />
+
+          } else {
+            return <Redirect to="/login" />
+          }
+        }} />
+
         <Route path="/movie/add" component={AddMoviePage} />
+        
+        <Route path="/movie/:movieId/update" component={UpdateMoviePage} />
 
         <Route path="/login" component={() => {
           if (this.props.user) {

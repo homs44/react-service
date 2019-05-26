@@ -41,7 +41,7 @@ function addMovieFailed(error) {
 }
 
 export function addMovie(name, director, openedAt, description, file) {
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch(addMovieRequest());
 
         // 이미지는 이미지 스토어에 저장하고
@@ -50,6 +50,12 @@ export function addMovie(name, director, openedAt, description, file) {
 
         // images/filename.jpg
 
+        // 게시글의 소유주를 등록하기 위해서
+        // 사용자 Id 가져오는 방법
+        // 첫번 째 방법 firebase.auth().currentUser
+        // const userId = firebase.auth().currentUser.uid;
+        // 두번 째 방법 redux-state에서 userId를 가져오는 방법
+        const userId = getState().auth.user.uid
 
         if (file) {
             // 이미지 저장하고 이미지 다운로드 URL 가지고와서
@@ -66,6 +72,7 @@ export function addMovie(name, director, openedAt, description, file) {
                     return firebase.firestore().collection('movies').add({
                         name: name,
                         imageURL: downloadURL,
+                        userId: userId,
                         director: director,
                         openedAt: openedAt,
                         description: description,

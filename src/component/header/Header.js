@@ -29,7 +29,7 @@ class Header extends Component {
                         <Link to="/movie/add">영화 추가</Link>
                     </Menu.Item>
                     <Menu.Item>
-                        <Link to="/">내가 등록한 영화</Link>
+                        <Link to="/my-movies">내가 등록한 영화</Link>
                     </Menu.Item>
 
                     <Menu.Menu position="right">

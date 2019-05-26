@@ -7,6 +7,8 @@ import logoutReducer from './logoutReducer';
 import displayNameReducer from './displayNameReducer';
 import addMovieReducer from './addMovieReducer';
 import movieListReducer from './movieListReducer';
+import myMovieListReducer from './myMovieListReducer';
+import updateMovieReducer from './updateMovieReducer';
 
 export function configureStore() {
     return createStore(
@@ -17,7 +19,9 @@ export function configureStore() {
             logout: logoutReducer,
             displayName: displayNameReducer,
             addMovie: addMovieReducer,
-            movieList: movieListReducer
+            movieList: movieListReducer,
+            myMovieList: myMovieListReducer,
+            updateMovie: updateMovieReducer,
         }),
         compose(
             applyMiddleware(thunk),
