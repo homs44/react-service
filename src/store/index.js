@@ -9,8 +9,17 @@ import addMovieReducer from './addMovieReducer';
 import movieListReducer from './movieListReducer';
 import myMovieListReducer from './myMovieListReducer';
 import updateMovieReducer from './updateMovieReducer';
+import deleteMyMovieReducer from './deleteMyMovieReducer';
 
 export function configureStore() {
+
+    const middleware = window.__REDUX_DEVTOOLS_EXTENSION__ ?
+        compose(
+            applyMiddleware(thunk),
+            window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+        ) :
+        applyMiddleware(thunk)
+
     return createStore(
         combineReducers({
             auth: authReducer,
@@ -22,11 +31,8 @@ export function configureStore() {
             movieList: movieListReducer,
             myMovieList: myMovieListReducer,
             updateMovie: updateMovieReducer,
+            deleteMyMovie: deleteMyMovieReducer,
         }),
-        compose(
-            applyMiddleware(thunk),
-            window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-
-        )
+        middleware
     )
 }

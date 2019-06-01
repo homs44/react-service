@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Grid, Button } from 'semantic-ui-react'
 import { getMyMovieList } from '../../store/myMovieListReducer'
 import MyMovieItem from './MyMovieItem'
+import { deleteMyMovie } from '../../store/deleteMyMovieReducer'
 
 class MyMovieList extends Component {
 
@@ -19,10 +20,15 @@ class MyMovieList extends Component {
         }
     }
 
-    onItemClick = (id) => {
-        console.log('onItemClick', id);
+    onItemUpdateClick = (id) => {
+        console.log('update', id);
         this.props.history.push(`/movie/${id}/update`)
         // this.props.history.push('/movie/'+id+'/update')
+    }
+
+    onItemDeleteClick = (id) => {
+        console.log('delete', id);
+        this.props.deleteMyMovie(id);
     }
 
     render() {
@@ -42,7 +48,8 @@ class MyMovieList extends Component {
                     director={director}
                     description={description}
                     likeCnt={0}
-                    onClick={this.onItemClick}
+                    onDelete={this.onItemDeleteClick}
+                    onUpdate={this.onItemUpdateClick}
                 />
             </Grid.Column>
         })
@@ -68,7 +75,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        getMyMovieList: (last) => dispatch(getMyMovieList(last))
+        getMyMovieList: (last) => dispatch(getMyMovieList(last)),
+        deleteMyMovie: (id) => dispatch(deleteMyMovie(id))
     }
 }
 

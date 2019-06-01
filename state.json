@@ -1,0 +1,13 @@
+{
+    "state": {
+        "auth": {
+            "user": null
+        },
+        "signup": {
+            "isLoading": false,
+            "isSuccess": false,
+            "isFailed": false,
+            "error": null
+        }
+    }
+}

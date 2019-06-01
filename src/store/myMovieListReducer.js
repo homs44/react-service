@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import { DELETE_MY_MOVIE_SUCCESS } from './types'
 
 const GET_MY_MOVIE_LIST_REQUEST = 'GET_MY_MOVIE_LIST_REQUEST';
 const GET_MY_MOVIE_LIST_SUCCESS = 'GET_MY_MOVIE_LIST_SUCCESS';
@@ -87,7 +88,10 @@ export default function myMovieListReducer(state = initialState, action) {
                 isFailed: true,
                 error: action.payload
             })
-
+        case DELETE_MY_MOVIE_SUCCESS:
+            return Object.assign({}, state, {
+                list: state.list.filter((doc) => doc.id !== action.payload)
+            })
         default:
             return state;
     }
