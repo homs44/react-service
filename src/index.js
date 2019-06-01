@@ -9,8 +9,13 @@ import 'semantic-ui-css/semantic.min.css'
 import { configureStore } from './store/index'
 import { Provider } from 'react-redux'
 import { auth } from './store/authReducer'
+import ReactGA from 'react-ga';
 
-var config = {
+//GA 초기화
+ReactGA.initialize('UA-141248886-1');
+
+//Firebase 초기화
+firebase.initializeApp({
     apiKey: "AIzaSyC8S96Ffg2lYV9MVcNgU5stPNbSGMA7yKE",
     authDomain: "react-board-99650.firebaseapp.com",
     databaseURL: "https://react-board-99650.firebaseio.com",
@@ -18,14 +23,11 @@ var config = {
     storageBucket: "react-board-99650.appspot.com",
     messagingSenderId: "278937540144",
     appId: "1:278937540144:web:4f50878d35b14e78"
-};
-
-firebase.initializeApp(config);
+});
 
 const store = configureStore();
 
 store.dispatch(auth())
-
 
 ReactDOM.render(
     <Provider store={store}>

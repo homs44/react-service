@@ -45,7 +45,7 @@ class App extends Component {
         }} />
 
         <Route path="/movie/add" component={AddMoviePage} />
-        
+
         <Route path="/movie/:movieId/update" component={UpdateMoviePage} />
 
         <Route path="/login" component={() => {

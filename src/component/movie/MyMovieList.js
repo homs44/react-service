@@ -5,6 +5,7 @@ import { Grid, Button } from 'semantic-ui-react'
 import { getMyMovieList } from '../../store/myMovieListReducer'
 import MyMovieItem from './MyMovieItem'
 import { deleteMyMovie } from '../../store/deleteMyMovieReducer'
+import ReactGA from 'react-ga'
 
 class MyMovieList extends Component {
 
@@ -21,6 +22,11 @@ class MyMovieList extends Component {
     }
 
     onItemUpdateClick = (id) => {
+        ReactGA.event({
+            category: 'User',
+            action: 'Click Update Button'
+        });
+
         console.log('update', id);
         this.props.history.push(`/movie/${id}/update`)
         // this.props.history.push('/movie/'+id+'/update')
